@@ -1,8 +1,8 @@
 import { recipes } from './recipes.js';
 import { menuCardFactory } from './factories/menu.js';
-import { filterFactory,filterBarFactory } from './factories/filter.js';
+import { filterFactory } from './factories/filter.js';
 import { headerFactory } from './factories/header.js';
-import { filterRecipes } from './factories/filter-recipes.js';
+import { filterRecipes,filterBarFactory } from './factories/filter-recipes.js';
 
 
 const headerFactoryInstance = headerFactory(); 
@@ -32,6 +32,11 @@ filterContainer.prepend(filterBar);
 
 // Fonction pour mettre à jour le menu en fonction des résultats du filtre
 function updateMenu(filteredRecipes) {
+    console.log('Données reçues dans updateMenu:', filteredRecipes);
+    if (!Array.isArray(filteredRecipes)) {
+        console.error('Erreur: filteredRecipes n\'est pas un tableau');
+        return;
+    }
     // Supprimez les cartes de menu actuelles
     menuContainer.innerHTML = '';
 
