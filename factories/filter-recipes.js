@@ -38,7 +38,6 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         options.forEach((option) => {
             const optionElement = document.createElement('a');
             optionElement.textContent = option;
-            // ... autres configurations pour optionElement ...
             optionElement.addEventListener('click', (e) => {
                 e.preventDefault();
                 const filteredRecipes = filterRecipes(recipes, type, option);
@@ -86,7 +85,10 @@ export function filterRecipes(recipes, type, option) {
             recipe.ustensils.map(ustensil => ustensil.toLowerCase()).includes(option.toLowerCase())
         );
     }
+
     console.log(filterRecipes(recipes, 'ustensils', 'couteau'));
+console.log(filterRecipes(recipes, 'appliance', 'blender'));
+
 
     console.log(`Recettes filtrées : ${JSON.stringify(filteredRecipes)}`);
     return filteredRecipes;

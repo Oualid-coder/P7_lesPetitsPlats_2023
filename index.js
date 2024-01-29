@@ -19,13 +19,13 @@ document.head.appendChild(linkElement);
 
 const menuContainer = document.getElementById('menuContainer');
 
-// Utilisez le filterFactory pour créer le filtre de recherche
+
 const filterFactoryInstance = filterFactory(recipes, updateMenu);
 const filterElement = filterFactoryInstance.createFilter();
 const filterContainer = document.getElementById('filterContainer');
 filterContainer.appendChild(filterElement);
 
-// Créer une instance de filterBarFactory pour les filtres par ustensils, etc.
+// Créer une instance de filterBarFactory pour les filtres par ustensils
 const filterBarFactoryInstance = filterBarFactory(recipes, updateMenu);
 const filterBar = filterBarFactoryInstance.createFilterBar();
 filterContainer.prepend(filterBar); 
