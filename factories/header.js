@@ -30,7 +30,7 @@ export function headerFactory(callback, recipes) {
         pointImage.alt = 'Point';
         pointImage.style.width = '10px'; 
         pointImage.style.height = '10px';
-        pointImage.style.marginLeft = '5px'; // Ajustez la marge à gauche selon vos préférences
+        pointImage.style.marginLeft = '5px'; 
 
         additionalText.appendChild(pointImage);
 

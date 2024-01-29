@@ -48,7 +48,7 @@ body {
   }
   
   .form-control {
-    width: 60%; /* Ajustez la largeur selon vos préférences */
+    width: 60%; 
     margin: 0 auto; /* Centre l'input */
 }
 
@@ -56,7 +56,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #ffffff; /* ou toute autre couleur appropriée */
+  background-color: #ffffff; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* pour l'ombre sous la barre */
   border-radius: 21px;
   margin-bottom: 20px; /* pour l'espace entre les filtres et les cartes de menu */
@@ -78,7 +78,7 @@ body {
   padding: 10px;
   border: none;
   border-radius: 21px;
-  width: 50%; /* ou la largeur que vous voulez */
+  width: 50%; 
 }
 
 /* Styles pour le menu déroulant */
