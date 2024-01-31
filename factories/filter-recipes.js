@@ -13,10 +13,10 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
 
         filterBar.appendChild(filterIngredients);
 
-        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(recipes),'appareils', updateDisplayCallback);
+        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(recipes),'appliance', updateDisplayCallback);
         filterBar.appendChild(filterAppliances);
 
-        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(recipes),'ustensiles', updateDisplayCallback);
+        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(recipes),'ustensils', updateDisplayCallback);
         filterBar.appendChild(filterUstensils);
 
         return filterBar;
@@ -34,21 +34,20 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         const dropdownContent = document.createElement('div');
         dropdownContent.classList.add('dropdown-content');
         dropdownContainer.appendChild(dropdownContent);
+
+        
     
         options.forEach((option) => {
             const optionElement = document.createElement('a');
             optionElement.textContent = option;
             optionElement.addEventListener('click', (e) => {
                 e.preventDefault();
-                const filteredRecipes = filterRecipes(recipes, type, option);
+                const filteredRecipes = filterRecipes(recipes, type, option.toLowerCase().trim());
                 callback(filteredRecipes);
             });
             dropdownContent.appendChild(optionElement);
         });
-    
-        button.onclick = function() {
-            dropdownContent.classList.toggle('show');
-        };
+        
     
         return dropdownContainer;
     }
@@ -59,38 +58,47 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     }
 
     function getUniqueAppliances(recipes) {
-        return [...new Set(recipes.map(recipe => recipe.appliance))].sort();
+        return [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))].sort();
     }
+    
 
     function getUniqueUstensils(recipes) {
-        return [...new Set(recipes.flatMap(recipe => recipe.ustensils))].sort();
+        return [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))].sort();
+    }
+    
+    console.log(filterRecipes(recipes, 'ustensils', 'bol'.toLowerCase()));
+
+   
+
+
+     function filterRecipes(recipes, type, option) {
+        console.log(`Filtrage des recettes pour le type ${type} et l'option ${option}`);
+        option = option.toLowerCase().trim();
+        let filteredRecipes = [];
+      
+    
+        if (type === 'ingredients') {
+            filteredRecipes = recipes.filter(recipe =>
+                recipe.ingredients.some(ingredient => ingredient.ingredient === option));
+        } else if (type === 'ustensils') {
+            filteredRecipes = recipes.filter(recipe => 
+                recipe.ustensils.includes(option));
+        } else if (type === 'appliance') {
+            filteredRecipes = recipes.filter(recipe => 
+                recipe.appliance === option);
+        }
+       
+    
+        console.log(`Recettes filtrées (${filteredRecipes.length}) :`, filteredRecipes);
+    
+        
+        
+        return filteredRecipes;
     }
 
     return { createFilterBar };
+    
 }
 
-export function filterRecipes(recipes, type, option) {
-    let filteredRecipes = [];
 
-    console.log(`Filtrage par ${type} avec l'option ${option}`);
-
-    if (type === 'ingredients') {
-        filteredRecipes = recipes.filter(recipe =>
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === option.toLowerCase())
-        );
-    } else if (type === 'appliance') {
-        filteredRecipes = recipes.filter(recipe => recipe.appliance.toLowerCase() === option.toLowerCase());
-    } else if (type === 'ustensils') {
-        filteredRecipes = recipes.filter(recipe => 
-            recipe.ustensils.map(ustensil => ustensil.toLowerCase()).includes(option.toLowerCase())
-        );
-    }
-
-    console.log(filterRecipes(recipes, 'ustensils', 'couteau'));
-console.log(filterRecipes(recipes, 'appliance', 'blender'));
-
-
-    console.log(`Recettes filtrées : ${JSON.stringify(filteredRecipes)}`);
-    return filteredRecipes;
-}
 

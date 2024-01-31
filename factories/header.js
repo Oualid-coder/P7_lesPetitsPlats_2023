@@ -16,7 +16,7 @@ export function headerFactory(callback, recipes) {
         headerContent.style.backgroundPosition = 'center'; 
         headerContent.style.position = 'relative';
 
-        // Ajouter la phrase "Les Petits Plats" en haut à droite de l'image
+       
         const additionalText = document.createElement('p');
         additionalText.textContent = "Les Petits Plats";
         additionalText.style.color = "#FFD15B";
@@ -24,7 +24,7 @@ export function headerFactory(callback, recipes) {
         additionalText.style.top = '10px'; 
         additionalText.style.right = '10px'; 
 
-        // Ajouter le point.png à côté de la phrase "Les Petits Plats"
+       
         const pointImage = document.createElement('img');
         pointImage.src = 'assets/point.png'; 
         pointImage.alt = 'Point';
@@ -36,7 +36,7 @@ export function headerFactory(callback, recipes) {
 
         headerContent.appendChild(additionalText);
 
-        // Ajouter la phrase centrée au-dessus de l'image
+        
         const headerText = document.createElement('p');
         headerText.textContent = "CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES";
         headerText.style.color = "#FFD15B";
