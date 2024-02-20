@@ -24,7 +24,6 @@ body {
   }
 
   #menuContainer {
-    margin-top: 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around; 
@@ -48,15 +47,16 @@ body {
   }
   
   .form-control {
-    width: 60%; 
-    margin: 0 auto; /* Centre l'input */
+    width: 954px;
+    height: 72px;
+    margin: 40px auto; /* Centre l'input */
 }
 
 .filter-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 10px;
-  background-color: #ffffff; 
+  background-color: #dedede;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* pour l'ombre sous la barre */
   border-radius: 21px;
   margin-bottom: 20px; /* pour l'espace entre les filtres et les cartes de menu */
@@ -65,9 +65,13 @@ body {
 .filter-bar button {
   padding: 10px 20px;
   border: none;
-  background-color: #f2f2f2; /* couleur de fond des boutons */
-  border-radius: 21px;
+  background-color: #FFFFFF; /* couleur de fond des boutons */
+  border-radius: 11px;
   cursor: pointer;
+  margin-left: 52px;
+  width: 179px;
+  height: 56px;
+
 }
 
 .filter-bar button:hover {
@@ -80,6 +84,17 @@ body {
   border-radius: 21px;
   width: 50%; 
 }
+
+.filter-bar button::after {
+  content: '⌄'; /* Chevron vers le bas */
+  font-size: 25px; /* Taille du chevron */
+  margin-left: 15px; /* Espacement après le titre du bouton */
+}
+
+.filter-bar button.chevron-up::after {
+  content: '⌃'; /* Chevron vers le haut */
+}
+
 
 /* Styles pour le menu déroulant */
 .dropdown {
@@ -112,8 +127,58 @@ body {
   display: block;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
+
+.dropdown-content {
+  display: none; /* Cache le contenu par défaut */
 }
 
+.dropdown-content.show {
+  display: block; /* Affiche le contenu quand la classe 'show' est ajoutée */
+}
+
+.search-container {
+  display: flex;
+  border: 1px solid #CCCCCC; /* Couleur de la bordure de la barre de recherche */
+  border-radius: 11px;
+  width: auto; /* ou une largeur spécifique si nécessaire */
+  align-items: center;
+  padding-right: 10px; /* Espace pour le bouton de recherche */
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none; /* Retire la bordure de l'input */
+  padding-left: 10px; /* Espacement à gauche dans l'input */
+}
+
+.search-logo-container {
+  margin-left: -75px; /* Ajustez en fonction de la taille de votre bouton de recherche */
+}
+
+/* Assurez-vous que le bouton n'a pas de fond et de bordure si nécessaire */
+.search-logo {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px; /* Ajoutez de l'espace au-dessus des tags */
+}
+
+.tag {
+  background-color: #FFD15B; /* Couleur de fond du tag */
+  border-radius: 10px; /* Bords arrondis */
+  padding: 5px 10px; /* Padding intérieur */
+  margin-right: 5px; /* Espacement entre les tags */
+  display: flex;
+  align-items: center;
+}
+
+.tag-close-btn {
+  margin-left: 10px; /* Espacement entre le texte du tag et le bouton fermer */
+  cursor: pointer;
+}
 

@@ -49,22 +49,27 @@ export function headerFactory(callback, recipes) {
 
         // Ajouter la barre de recherche Bootstrap centrée en dessous de la phrase et au centre de l'image
         const searchContainer = document.createElement('div');
-        searchContainer.classList.add('mx-auto', 'mt-4', 'text-center', 'position-absolute', 'bottom-0', 'start-50', 'translate-middle-x'); // Ajouter des classes pour le centrage
+        searchContainer.classList.add('mx-auto', 'mt-4', 'text-center', 'position-absolute', 'bottom-0', 'start-50', 'translate-middle-x'); 
         searchContainer.style.zIndex = '1'; 
+        searchContainer.classList.add('d-flex', 'align-items-center');
 
-        const searchInput = document.createElement('input');
-        searchInput.classList.add('form-control');
-        searchInput.type = 'text';
-        searchInput.placeholder = 'Rechercher...';
-
+              // Création et configuration de l'input de recherche
+              const searchInput = document.createElement('input');
+              searchInput.classList.add('form-control');
+              searchInput.id = 'form-control'; // Assurez-vous que cet ID est unique ou utilisez une classe si multiple
+              searchInput.type = 'text';
+              searchInput.placeholder = 'Rechercher une recette...';
+            
         // Ajouter le conteneur du logo et le logo à droite du champ de recherche
+        
         const searchLogoContainer = document.createElement('div');
 
         const searchLogo = document.createElement('img');
+        searchLogo.classList.add('search-logo-container')
         searchLogo.src = 'assets/loupe.png'; 
         searchLogo.alt = 'Loupe';
-        searchLogo.style.width = '20px'; 
-        searchLogo.style.height = '20px';
+        searchLogo.style.width = '50px'; 
+        searchLogo.style.height = '50px';
 
         searchLogoContainer.appendChild(searchLogo);
 
@@ -77,24 +82,8 @@ export function headerFactory(callback, recipes) {
         headerContent.appendChild(searchContainer); 
         header.appendChild(headerContent);
 
-                // Utilisez le filterFactory pour créer le filtre
-                const filterFactoryInstance = filterFactory(recipes, callback);
-                const filterElement = filterFactoryInstance.createFilter();
-        
-                // Ajoutez le filtre à votre DOM, par exemple, à un élément avec un id "filterContainer"
-                const filterContainer = document.getElementById('filterContainer');
-                filterContainer.appendChild(filterElement);
 
-                headerContent.appendChild(searchContainer);
-header.appendChild(headerContent);
-
-// Attendre le chargement du DOM avant d'ajouter le filtre
-document.addEventListener('DOMContentLoaded', function () {
-    const filterContainer = document.getElementById('filterContainer');
-    filterContainer.appendChild(filterElement);
-});
-
-return header;
+return header ;
 
     }
 

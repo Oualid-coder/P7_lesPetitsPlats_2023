@@ -1,9 +1,9 @@
 import { recipes } from './recipes.js';
-console.log("Recettes chargées :", recipes);
 import { menuCardFactory } from './factories/menu.js';
 import { filterFactory } from './factories/filter.js';
 import { headerFactory } from './factories/header.js';
 import {filterBarFactory } from './factories/filter-recipes.js';
+
 
 
 recipes.forEach(recipe => {
@@ -16,11 +16,13 @@ recipes.forEach(recipe => {
 
 
 
-const headerFactoryInstance = headerFactory(); 
-const headerElement = headerFactoryInstance.createHeader();
-
+const headerFactoryInstance = headerFactory(); // Assurez-vous de définir filterRecipe
+const  headerElement  = headerFactoryInstance.createHeader();
 const headerContainer = document.querySelector('.header');
 headerContainer.appendChild(headerElement);
+
+// Maintenant, récupérez searchInput depuis le DOM
+const searchInput = document.querySelector('.form-control'); 
 
 const linkElement = document.createElement('link');
 linkElement.rel = 'stylesheet';
@@ -31,16 +33,16 @@ document.head.appendChild(linkElement);
 const menuContainer = document.getElementById('menuContainer');
 
 
-const filterFactoryInstance = filterFactory(recipes, updateMenu);
-const filterElement = filterFactoryInstance.createFilter();
-const filterContainer = document.getElementById('filterContainer');
-filterContainer.appendChild(filterElement);
+//const filterFactoryInstance = filterFactory(recipes, updateMenu);
 
-// Créer une instance de filterBarFactory pour les filtres par ustensils
+const filterContainer = document.getElementById('filterContainer');
+//filterContainer.appendChild(filterElement);
+
+// Créer une instance de filterBarFactory pour les filtres par ustensils etc ...
 const filterBarFactoryInstance = filterBarFactory(recipes, updateMenu);
 
 const filterBar = filterBarFactoryInstance.createFilterBar();
-filterContainer.prepend(filterBar); 
+filterContainer.appendChild(filterBar); 
 
 
 // Fonction pour mettre à jour le menu en fonction des résultats du filtre
@@ -59,6 +61,13 @@ function updateMenu(filteredRecipes) {
         const menuCardElement = menuCardFactoryInstance.createMenuCard();
         menuContainer.appendChild(menuCardElement);
     });
+
+    const filterFactoryInstance = filterFactory(recipes, updateMenu);
+
+    searchInput.addEventListener('input', () => {
+        filterFactoryInstance.filterRecipes(searchInput.value);
+    });
+
 }
 
 // Fonction d'initialisation qui crée une carte de menu pour chaque recette
