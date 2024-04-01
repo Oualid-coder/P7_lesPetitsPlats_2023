@@ -4,7 +4,7 @@ import { filterFactory } from './filter.js';
 
 export function headerFactory(callback, recipes) {
     function createHeader() {
-        // Créer l'élément d'en-tête
+       
         const header = document.createElement('div');
         header.classList.add('header'); 
 
@@ -22,7 +22,7 @@ export function headerFactory(callback, recipes) {
         additionalText.style.color = "#FFD15B";
         additionalText.style.position = 'absolute';
         additionalText.style.top = '10px'; 
-        additionalText.style.right = '10px'; 
+        additionalText.style.left = '50px'; 
 
        
         const pointImage = document.createElement('img');
@@ -38,12 +38,14 @@ export function headerFactory(callback, recipes) {
 
         
         const headerText = document.createElement('p');
-        headerText.textContent = "CHERCHEZ PARMI PLUS DE 1500 RECETTES DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES";
+        headerText.innerHTML = "CHERCHEZ PARMI PLUS DE 1500 RECETTES<br>DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES";
         headerText.style.color = "#FFD15B";
         headerText.style.textAlign = 'center';
         headerText.style.position = 'absolute';
         headerText.style.left = '50%';
         headerText.style.top = '50%';
+        headerText.style.width='100%'
+        headerText.style.fontSize='44px'
         headerText.style.transform = 'translate(-50%, -50%)'; 
         headerText.style.marginTop = '-50px'; 
 
@@ -58,7 +60,7 @@ export function headerFactory(callback, recipes) {
               searchInput.classList.add('form-control');
               searchInput.id = 'form-control'; // Assurez-vous que cet ID est unique ou utilisez une classe si multiple
               searchInput.type = 'text';
-              searchInput.placeholder = 'Rechercher une recette...';
+              searchInput.placeholder = 'Rechercher une recette,un ingrédient,...';
             
         // Ajouter le conteneur du logo et le logo à droite du champ de recherche
         

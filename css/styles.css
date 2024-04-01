@@ -1,5 +1,8 @@
 body {
     font-family: Arial, sans-serif;
+      margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
   
   h1 {
@@ -33,8 +36,57 @@ body {
 .menu-card{
   margin-bottom: 33px;
   background-color: white;
+      width: 380px;
+    border-radius: 21px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1); /* Ombre sous la carte */
+    margin-bottom: 33px;
+    background-color: white;
+}
+
+.menu-card img {
+    width: 100%;
+    object-fit: cover;
+    height: 220px; /* Hauteur fixe pour l'image */
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f3f3f3;
+  padding: 20px;
+}
+
+
+
+.content-container {
+    padding: 20px;
 }
   
+
+.ingredients-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.ingredients-container div {
+  flex-basis: calc(50% - 10px);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.ingredients-container span {
+  display: block;
+  margin-bottom: 5px; /* Espace entre le nom et la quantité */
+}
+
+.ingredients-container span:first-child {
+  font-weight: bold;
+}
+
   #resultats {
     margin: 20px;
   }
@@ -58,11 +110,11 @@ body {
   padding: 10px;
   background-color: #dedede;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* pour l'ombre sous la barre */
-  border-radius: 21px;
-  margin-bottom: 20px; /* pour l'espace entre les filtres et les cartes de menu */
 }
 
 .filter-bar button {
+  position: relative;
+  top: 7px;
   padding: 10px 20px;
   border: none;
   background-color: #FFFFFF; /* couleur de fond des boutons */
@@ -81,8 +133,8 @@ body {
 .filter-bar input {
   padding: 10px;
   border: none;
-  border-radius: 21px;
-  width: 50%; 
+  border: 1px solid;
+  width: 100%; 
 }
 
 .filter-bar button::after {
@@ -134,32 +186,32 @@ body {
 
 .dropdown-content.show {
   display: block; /* Affiche le contenu quand la classe 'show' est ajoutée */
-}
-
-.search-container {
-  display: flex;
-  border: 1px solid #CCCCCC; /* Couleur de la bordure de la barre de recherche */
-  border-radius: 11px;
-  width: auto; /* ou une largeur spécifique si nécessaire */
-  align-items: center;
-  padding-right: 10px; /* Espace pour le bouton de recherche */
-}
-
-.search-input {
-  flex-grow: 1;
-  border: none; /* Retire la bordure de l'input */
-  padding-left: 10px; /* Espacement à gauche dans l'input */
+  margin-left: 52px;
 }
 
 .search-logo-container {
   margin-left: -75px; /* Ajustez en fonction de la taille de votre bouton de recherche */
 }
 
-/* Assurez-vous que le bouton n'a pas de fond et de bordure si nécessaire */
-.search-logo {
-  cursor: pointer;
-  background: none;
-  border: none;
+.search-input-with-icon {
+  width: 100%; /* ou la largeur que vous voulez */
+  padding: 10px; /* Ajustez à votre convenance */
+  padding-right: 40px; /* Espace pour l'icône */
+  border: 1px solid #cccccc; /* Couleur de bordure souhaitée */
+  background-image: url('../assets/loop4.svg');
+  background-color: transparent;
+  background-position: right 10px center; /* Ajustez la position de l'icône */
+  background-repeat: no-repeat;
+  background-size: 20px; /* Taille de l'icône */
+  box-sizing: border-box; /* Pour inclure le padding dans la largeur */
+  /* Ajoutez d'autres styles comme l'ombre, la couleur de fond, etc. */
+}
+
+/* Vous voudrez peut-être ajouter des styles pour l'interaction avec l'input */
+.search-input-with-icon:focus {
+  outline: none; /* Retire le contour par défaut sur le focus */
+  border-color: #a0a0a0; /* Change la couleur de bordure sur le focus */
+  /* Ajoutez d'autres styles pour l'état focus si nécessaire */
 }
 
 .tag-container {
@@ -169,16 +221,22 @@ body {
 }
 
 .tag {
-  background-color: #FFD15B; /* Couleur de fond du tag */
-  border-radius: 10px; /* Bords arrondis */
-  padding: 5px 10px; /* Padding intérieur */
-  margin-right: 5px; /* Espacement entre les tags */
+  background-color: #FFD15B;
+  border-radius: 10px;
+  margin-top: 12px;
+  padding: 5px 10px;
+  width: 203px;
+  height: 53px;
+  margin-right: 5px;
+  margin-left: 40px;
+  gap: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .tag-close-btn {
-  margin-left: 10px; /* Espacement entre le texte du tag et le bouton fermer */
+  margin-left: 20px; /* Espacement entre le texte du tag et le bouton fermer */
   cursor: pointer;
 }
 

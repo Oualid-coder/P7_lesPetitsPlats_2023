@@ -1,6 +1,3 @@
-// filterRecipes.js
-//import { createTag } from './tag.js';
-
 export function filterBarFactory(recipes, updateDisplayCallback) {
     if (typeof updateDisplayCallback !== 'function') {
         throw new Error('updateDisplayCallback must be a function');
@@ -9,10 +6,6 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     function createFilterBar() {
         const filterBar = document.createElement('div');
         filterBar.classList.add('filter-bar');
-
-        const testTag = document.createElement('div');
-        testTag.textContent = 'Test Tag';
-        document.body.appendChild(testTag);
 
         const filterIngredients = createDropdown('Ingrédients', getUniqueIngredients(recipes), 'ingredients', updateDisplayCallback);
 
@@ -28,47 +21,84 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     }
 
    
-
     function createDropdown(title, options, type, callback) {
         const dropdownContainer = document.createElement('div');
         dropdownContainer.classList.add('dropdown');
+
+   
     
         const button = document.createElement('button');
         button.textContent = title;
         button.classList.add('dropdown-button');
         dropdownContainer.appendChild(button);
-
-
+    
+        const dropdownContent = document.createElement('div');
+        dropdownContent.classList.add('dropdown-content');
+        dropdownContainer.appendChild(dropdownContent);
+    
+    
+        const searchInput = document.createElement('input');
+        searchInput.classList.add('search-input', 'search-input-with-icon');
+        //searchInput.style.backgroundImage = "url('../assets/loupe2.png')";
+        searchInput.style.backgroundPosition = "right 10px center";
+        searchInput.style.backgroundRepeat = "no-repeat";
+        dropdownContent.appendChild(searchInput);
+    
+    
         const tagsContainer = document.createElement('div');
         tagsContainer.classList.add('tags-container');
         dropdownContainer.appendChild(tagsContainer);
-
+    
         button.addEventListener('click', () => {
             button.classList.toggle('chevron-up');
             dropdownContent.classList.toggle('show');
         });
     
-        const dropdownContent = document.createElement('div');
-        dropdownContent.classList.add('dropdown-content');
-        dropdownContainer.appendChild(dropdownContent);
-
+        // Attacher les options initiales à dropdownContent
+        attachOptionsToDropdown(options, dropdownContent, type, callback, tagsContainer);
     
-        options.forEach((option) => {
-            const optionElement = document.createElement('a');
-            optionElement.textContent = option;
-            optionElement.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log("Option cliquée:", option); 
-                const filteredRecipes = filterRecipes(recipes, type, option.toLowerCase().trim());
-                callback(filteredRecipes);
-                createTag(option, tagsContainer);
-            });
-            dropdownContent.appendChild(optionElement);
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let filteredOptions = options;
+            if (searchTerm.length >= 3) {
+                filteredOptions = options.filter(option => option.toLowerCase().includes(searchTerm));
+            }
+            // Mise à jour des options affichées
+            attachOptionsToDropdown(filteredOptions, dropdownContent, type, callback, tagsContainer);
         });
-        
     
         return dropdownContainer;
     }
+    
+    function attachOptionsToDropdown(options, dropdownContent, type, callback, tagsContainer) {
+    // Obtenez le premier enfant, qui devrait être le conteneur de recherche
+    const searchContainer = dropdownContent.firstChild;
+
+    // Supprimez tout sauf le conteneur de recherche
+    while (dropdownContent.lastChild !== searchContainer) {
+        dropdownContent.removeChild(dropdownContent.lastChild);
+    }
+
+    // Ajoutez les options filtrées ou toutes les options
+    options.forEach(option => {
+        const optionElement = document.createElement('a');
+        optionElement.textContent = option;
+        optionElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filteredRecipes = filterRecipes(recipes, type, option.toLowerCase().trim());
+            callback(filteredRecipes);
+            createTag(option, tagsContainer, type, callback);
+        });
+        dropdownContent.appendChild(optionElement);
+    });
+
+    // Réappliquez le focus sur l'input de recherche, si nécessaire
+    const searchInput = searchContainer.querySelector('.search-input');
+    if (searchInput) {
+        searchInput.focus();
+    }
+    }
+    
     
 
     function getUniqueIngredients(recipes) {
