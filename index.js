@@ -15,6 +15,8 @@ recipes.forEach(recipe => {
 });
 
 
+export let initialRecipes = [...recipes];
+
 
 const headerFactoryInstance = headerFactory(); // Assurez-vous de définir filterRecipe
 const  headerElement  = headerFactoryInstance.createHeader();
@@ -33,16 +35,32 @@ document.head.appendChild(linkElement);
 const menuContainer = document.getElementById('menuContainer');
 
 
-//const filterFactoryInstance = filterFactory(recipes, updateMenu);
+ // Fonction pour réinitialiser les filtres et afficher toutes les recettes
+ export function resetFilters() {
+    currentFilteredRecipes = [...initialRecipes];
+    updateMenu(currentFilteredRecipes);
+}
 
-const filterContainer = document.getElementById('filterContainer');
-//filterContainer.appendChild(filterElement);
 
-// Créer une instance de filterBarFactory pour les filtres par ustensils etc ...
-const filterBarFactoryInstance = filterBarFactory(recipes, updateMenu);
+function clearMenuContainer(container) {
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+}
 
-const filterBar = filterBarFactoryInstance.createFilterBar();
-filterContainer.appendChild(filterBar); 
+function createRecipeCountElement(container) {
+    let recipeCountElement = document.createElement('p');
+    recipeCountElement.id = 'recipeCount';
+    container.appendChild(recipeCountElement);
+    return recipeCountElement;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menuContainer = document.getElementById('menuContainer');
+    const testElement = document.createElement('p');
+    testElement.textContent = 'Test visible';
+    menuContainer.appendChild(testElement);
+});
 
 
 // Fonction pour mettre à jour le menu en fonction des résultats du filtre
@@ -52,26 +70,72 @@ function updateMenu(filteredRecipes) {
         console.error('Erreur: filteredRecipes n\'est pas un tableau');
         return;
     }
-    // Supprimez les cartes de menu actuelles
-    menuContainer.innerHTML = '';
 
-    // Créez une carte de menu pour chaque recette filtrée
-    filteredRecipes.forEach((recipe) => {
-        const menuCardFactoryInstance = menuCardFactory(recipe);
-        const menuCardElement = menuCardFactoryInstance.createMenuCard();
+    
+    let recipeCountElement = document.getElementById('recipeCount');
+    if (!recipeCountElement) {
+        recipeCountElement = document.createElement('p');
+        recipeCountElement.id = 'recipeCount';
+        menuContainer.appendChild(recipeCountElement);
+    }
+    recipeCountElement.textContent = `${filteredRecipes.length} recettes`;
+    console.log("Élément de compte ajouté ou mis à jour");
+
+    // Effacez les anciennes cartes de menu
+    clearMenuContainer(menuContainer);  // Assurez-vous que cette fonction supprime correctement les éléments
+
+    // Ajoutez les nouvelles cartes de menu
+    filteredRecipes.forEach(recipe => {
+        const menuCardFactoryInstance = menuCardFactory(recipe);  // Utilisez l'instance factory pour créer la carte
+        const menuCardElement = menuCardFactoryInstance.createMenuCard();  // Créez la carte via la factory
         menuContainer.appendChild(menuCardElement);
-    });
-
-    const filterFactoryInstance = filterFactory(recipes, updateMenu);
-
-    searchInput.addEventListener('input', () => {
-        filterFactoryInstance.filterRecipes(searchInput.value);
     });
 
 }
 
+function updateInputHeader(recipes){
+
+    const filterFactoryInstance = filterFactory(recipes, updateMenu);
+    searchInput.addEventListener('input', () => {
+        const inputValue = searchInput.value.trim(); // Nettoyez la valeur pour ignorer les espaces superflus
+        if (inputValue.length === 0) {
+            // Si l'input est vide, réaffichez toutes les recettes
+            updateMenu(recipes);
+        } else {
+            // Sinon, filtrez les recettes basées sur la valeur de l'input
+            filterFactoryInstance.filterRecipes(inputValue);
+        }
+    });
+
+}
+
+
+
+
+function closeBtnHandle(recipes){
+        // Ciblage de l'icône de réinitialisation et ajout d'un gestionnaire de clic
+        const resetIcon = document.querySelector('.reset-icon');
+        resetIcon.addEventListener('click', () => {
+            searchInput.value = ''; // Effacer le champ de recherche
+            updateMenu(recipes); // Réafficher toutes les recettes
+        });
+}
+
+
+
+const filterContainer = document.getElementById('filterContainer');
+
+
+// Créer une instance de filterBarFactory pour les filtres par ustensils etc ...
+const filterBarFactoryInstance = filterBarFactory(recipes, updateMenu);
+
+const filterBar = filterBarFactoryInstance.createFilterBar();
+filterContainer.appendChild(filterBar); 
+
 // Fonction d'initialisation qui crée une carte de menu pour chaque recette
-function init(recipes) {
+function init(recipes) {    
+    closeBtnHandle(recipes)
+    updateInputHeader(recipes)
     updateMenu(recipes);
 }
 

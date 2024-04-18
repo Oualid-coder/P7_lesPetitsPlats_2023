@@ -27,11 +27,26 @@ body {
   }
 
   #menuContainer {
+    z-index:0;
+    position:relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around; 
     background-color: #dedede
 }
+
+
+
+  #recipeCount {
+
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color:black;
+  font-size: 16px;
+}
+
+
 
 .menu-card{
   margin-bottom: 33px;
@@ -62,7 +77,7 @@ body {
 .content-container {
     padding: 20px;
 }
-  
+
 
 .ingredients-container {
   display: flex;
@@ -80,7 +95,7 @@ body {
 
 .ingredients-container span {
   display: block;
-  margin-bottom: 5px; /* Espace entre le nom et la quantité */
+  margin-bottom: 5px; 
 }
 
 .ingredients-container span:first-child {
@@ -101,7 +116,7 @@ body {
   .form-control {
     width: 954px;
     height: 72px;
-    margin: 40px auto; /* Centre l'input */
+    margin: 40px auto; 
 }
 
 .filter-bar {
@@ -109,7 +124,8 @@ body {
   justify-content: flex-start;
   padding: 10px;
   background-color: #dedede;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* pour l'ombre sous la barre */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+
 }
 
 .filter-bar button {
@@ -117,34 +133,53 @@ body {
   top: 7px;
   padding: 10px 20px;
   border: none;
-  background-color: #FFFFFF; /* couleur de fond des boutons */
+  background-color: #FFFFFF; 
   border-radius: 11px;
   cursor: pointer;
   margin-left: 52px;
-  width: 179px;
+  width:  206px;
   height: 56px;
 
 }
 
 .filter-bar button:hover {
-  background-color: #e2e2e2; /* couleur de fond des boutons au survol */
+ 
 }
 
+a:hover {
+  background-color: red;
+}
+
+
 .filter-bar input {
-  padding: 10px;
+padding-right: 10px; /* Espace à droite pour éviter que le texte touche le bord */
+    padding-left: 10px;
+
   border: none;
   border: 1px solid;
   width: 100%; 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
 }
 
 .filter-bar button::after {
-  content: '⌄'; /* Chevron vers le bas */
+  content: ''; /* Chevron vers le bas */
   font-size: 25px; /* Taille du chevron */
+
+    display: inline-block; /* Ou 'block', selon votre mise en page */
+  width: 25px; /* Largeur de l'image */
+  height: 11px; /* Hauteur de l'image */
+  background-image: url('../assets/Vector2.svg'); /* Chemin vers l'image du chevron vers le bas */
+  background-size: contain; /* Ou 'cover', selon le besoin */
+  background-repeat: no-repeat;
   margin-left: 15px; /* Espacement après le titre du bouton */
 }
 
 .filter-bar button.chevron-up::after {
-  content: '⌃'; /* Chevron vers le haut */
+  content: ''; /* Chevron vers le haut */
+  background-image: url('../assets/Vector1.svg');
 }
 
 
@@ -187,10 +222,11 @@ body {
 .dropdown-content.show {
   display: block; /* Affiche le contenu quand la classe 'show' est ajoutée */
   margin-left: 52px;
+  width: 206px;
 }
 
 .search-logo-container {
-  margin-left: -75px; /* Ajustez en fonction de la taille de votre bouton de recherche */
+  margin-left: -151px; /* Ajustez en fonction de la taille de votre bouton de recherche */
 }
 
 .search-input-with-icon {
@@ -198,13 +234,26 @@ body {
   padding: 10px; /* Ajustez à votre convenance */
   padding-right: 40px; /* Espace pour l'icône */
   border: 1px solid #cccccc; /* Couleur de bordure souhaitée */
-  background-image: url('../assets/loop4.svg');
   background-color: transparent;
-  background-position: right 10px center; /* Ajustez la position de l'icône */
-  background-repeat: no-repeat;
-  background-size: 20px; /* Taille de l'icône */
   box-sizing: border-box; /* Pour inclure le padding dans la largeur */
   /* Ajoutez d'autres styles comme l'ombre, la couleur de fond, etc. */
+   
+}
+
+#search-button{
+
+position: absolute;
+    top: 1px;
+    right: 12px;
+    background-color: transparent;
+    height: 46px;
+    width: 40px;
+    margin: 0;
+
+}
+
+#search-button::after {
+display:none;
 }
 
 /* Vous voudrez peut-être ajouter des styles pour l'interaction avec l'input */
