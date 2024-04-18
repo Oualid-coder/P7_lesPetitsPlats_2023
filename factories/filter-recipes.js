@@ -46,7 +46,6 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         searchContainer.style.display = 'flex';
         searchContainer.style.alignItems = 'center';
         searchContainer.style.position='relative';
-        searchContainer.style.right='5px'
         dropdownContent.appendChild(searchContainer);
 
 
@@ -57,7 +56,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         resetIcon.style.visibility = 'hidden'; // initialement caché
         resetIcon.style.cursor = 'pointer';
         resetIcon.style.position='absolute';
-        resetIcon.style.left='117px';
+        resetIcon.style.left='111px';
         resetIcon.style.marginRight = '0.5em'; 
         
         // Ajoutez des événements pour gérer l'affichage et la réinitialisation
@@ -126,10 +125,6 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     }
 
 
-
-
-
-
     
     function attachOptionsToDropdown(options, dropdownContent, type, callback, tagsContainer) {
     // Obtenez le premier enfant, qui devrait être le conteneur de recherche
@@ -144,6 +139,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     options.forEach(option => {
         const optionElement = document.createElement('a');
         optionElement.textContent = option;
+        optionElement.classList.add('option')
         optionElement.addEventListener('click', (e) => {
             e.preventDefault();
             const filteredRecipes = filterRecipes(recipes, type, option.toLowerCase().trim());

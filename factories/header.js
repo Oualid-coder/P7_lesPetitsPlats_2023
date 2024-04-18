@@ -42,6 +42,7 @@ export function headerFactory(callback, recipes) {
         headerText.style.color = "#FFD15B";
         headerText.style.textAlign = 'center';
         headerText.style.position = 'absolute';
+        headerText.classList.add('titre')
         headerText.style.left = '50%';
         headerText.style.top = '50%';
         headerText.style.width='100%'
@@ -56,8 +57,8 @@ export function headerFactory(callback, recipes) {
         searchContainer.style.top='23%'
         searchContainer.classList.add('d-flex', 'align-items-center');
         searchContainer.style.display = 'flex';
-searchContainer.style.alignItems = 'center';
-searchContainer.style.justifyContent = 'center';
+        searchContainer.style.alignItems = 'center';
+        searchContainer.style.justifyContent = 'center';
 
 
               // Création et configuration de l'input de recherche
@@ -68,7 +69,6 @@ searchContainer.style.justifyContent = 'center';
               searchInput.style.marginRight = '10px';
               searchInput.style.flexGrow = '1';
               searchInput.placeholder = 'Rechercher une recette,un ingrédient,...';
-              //searchInput.style.order = '1';
 
                       // Créer l'icône de réinitialisation
                 const resetIcon = document.createElement('div');
@@ -83,7 +83,6 @@ searchContainer.style.justifyContent = 'center';
                 resetIcon.style.visibility = 'hidden';
                 resetIcon.style.position='relative'
                 resetIcon.style.right='120px'
-                //resetIcon.style.order = '2';  // Assurez-vous que la croix est après l'input
                 resetIcon.classList.add('reset-icon');
                 resetIcon.addEventListener('click', function() {
                     searchInput.value = '';
@@ -120,7 +119,6 @@ searchContainer.style.justifyContent = 'center';
             searchLogo.style.height = '50px';
             searchLogo.style.cursor = 'pointer';
             searchLogoContainer.style.flexShrink = '0';
-            //searchLogoContainer.style.order = '3';
             
 
             searchContainer.appendChild(searchInput);
@@ -141,9 +139,9 @@ searchContainer.style.justifyContent = 'center';
 
 
 
-return header ;
+        return header ;
 
-    }
+            }
 
-    return { createHeader };
-}
+            return { createHeader };
+        }

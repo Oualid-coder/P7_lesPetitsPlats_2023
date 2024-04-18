@@ -3,8 +3,8 @@ export function menuCardFactory(recipe) {
         // Créer l'élément de carte du menu
         const menuCard = document.createElement('div');
         menuCard.classList.add('menu-card');
-        menuCard.style.width = '380px';
-        menuCard.style.height = 'auto'; // La hauteur doit s'adapter au contenu
+        menuCard.style.width = '422px';
+        menuCard.style.height = '891px'; 
         menuCard.style.borderRadius = '21px';
         menuCard.style.position = 'relative';
         menuCard.style.overflow = 'hidden';
@@ -21,18 +21,18 @@ export function menuCardFactory(recipe) {
         image.style.borderTopRightRadius = '21px';
         menuCard.appendChild(image);
 
-        // Créer et configurer le conteneur du temps de préparation
-const timeContainer = document.createElement('div');
-timeContainer.textContent = `${recipe.time} min`; 
-timeContainer.style.position = 'absolute'; // Positionnement absolu par rapport au parent relatif
-timeContainer.style.top = '10px'; // Décalage par rapport au haut de l'image
-timeContainer.style.right = '21px'; // Décalage par rapport au côté gauche de l'image
-timeContainer.style.backgroundColor = '#FFD15B'; // Fond semi-transparent pour la lisibilité
-timeContainer.style.color = '#fff'; // Texte en blanc pour contraster avec le fond sombre
-timeContainer.style.padding = '5px 10px'; // Un peu de padding autour du texte
-timeContainer.style.borderRadius = '15px'; // Bords arrondis pour esthétique
-timeContainer.style.fontWeight = 'bold'; // Texte en gras pour se démarquer
-timeContainer.style.zIndex = '10'; // se superpose à l'image
+                // Créer et configurer le conteneur du temps de préparation
+        const timeContainer = document.createElement('div');
+        timeContainer.textContent = `${recipe.time} min`; 
+        timeContainer.style.position = 'absolute'; // Positionnement absolu par rapport au parent relatif
+        timeContainer.style.top = '10px'; // Décalage par rapport au haut de l'image
+        timeContainer.style.right = '21px'; // Décalage par rapport au côté gauche de l'image
+        timeContainer.style.backgroundColor = '#FFD15B'; // Fond semi-transparent pour la lisibilité
+        timeContainer.style.color = 'black'; // Texte en blanc pour contraster avec le fond sombre
+        timeContainer.style.padding = '5px 10px'; // Un peu de padding autour du texte
+        timeContainer.style.borderRadius = '15px'; // Bords arrondis pour esthétique
+        timeContainer.style.fontWeight = 'bold'; // Texte en gras pour se démarquer
+        timeContainer.style.zIndex = '10'; // se superpose à l'image
 
         // Ajouter le titre de la recette
         const title = document.createElement('h2');

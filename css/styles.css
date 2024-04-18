@@ -35,14 +35,21 @@ body {
     background-color: #dedede
 }
 
-
-
-  #recipeCount {
-
-  font-family: "Anton", sans-serif;
+.titre{
+ font-family: "Anton", sans-serif;
   font-weight: 400;
   font-style: normal;
-  color:black;
+}
+
+  #recipeCount {
+  position: absolute;
+  z-index: 3;
+  top: 630px;
+  font-family: "Anton", sans-serif;
+  right: 31px;
+  font-weight: 400;
+  font-style: normal;
+  color: black;
   font-size: 16px;
 }
 
@@ -122,7 +129,7 @@ body {
 .filter-bar {
   display: flex;
   justify-content: flex-start;
-  padding: 10px;
+  padding: 15px;
   background-color: #dedede;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 
@@ -142,13 +149,7 @@ body {
 
 }
 
-.filter-bar button:hover {
- 
-}
 
-a:hover {
-  background-color: red;
-}
 
 
 .filter-bar input {
@@ -204,14 +205,21 @@ padding-right: 10px; /* Espace à droite pour éviter que le texte touche le bor
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  cursor:pointer;
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: #FFD15B;
 }
 
 .dropdown-button:hover .dropdown-content {
   display: block;
+}
+
+.search-container{
+      width: 82%;
+    margin-bottom: 18px;
+    left: 18px;
 }
 
 
@@ -223,6 +231,7 @@ padding-right: 10px; /* Espace à droite pour éviter que le texte touche le bor
   display: block; /* Affiche le contenu quand la classe 'show' est ajoutée */
   margin-left: 52px;
   width: 206px;
+  padding:0;
 }
 
 .search-logo-container {
@@ -277,7 +286,7 @@ display:none;
   width: 203px;
   height: 53px;
   margin-right: 5px;
-  margin-left: 40px;
+  margin-left: 54px;
   gap: 60px;
   display: flex;
   align-items: center;

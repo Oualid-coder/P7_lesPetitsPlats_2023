@@ -34,6 +34,8 @@ document.head.appendChild(linkElement);
 
 const menuContainer = document.getElementById('menuContainer');
 
+const filterContainer = document.getElementById('filterContainer');
+
 
  // Fonction pour réinitialiser les filtres et afficher toutes les recettes
  export function resetFilters() {
@@ -74,12 +76,11 @@ function updateMenu(filteredRecipes) {
     
     let recipeCountElement = document.getElementById('recipeCount');
     if (!recipeCountElement) {
-        recipeCountElement = document.createElement('p');
+        recipeCountElement = document.createElement('span');
         recipeCountElement.id = 'recipeCount';
-        menuContainer.appendChild(recipeCountElement);
+        filterContainer.appendChild(recipeCountElement);
     }
     recipeCountElement.textContent = `${filteredRecipes.length} recettes`;
-    console.log("Élément de compte ajouté ou mis à jour");
 
     // Effacez les anciennes cartes de menu
     clearMenuContainer(menuContainer);  // Assurez-vous que cette fonction supprime correctement les éléments
@@ -121,9 +122,6 @@ function closeBtnHandle(recipes){
         });
 }
 
-
-
-const filterContainer = document.getElementById('filterContainer');
 
 
 // Créer une instance de filterBarFactory pour les filtres par ustensils etc ...
