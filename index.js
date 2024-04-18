@@ -50,20 +50,6 @@ function clearMenuContainer(container) {
     }
 }
 
-function createRecipeCountElement(container) {
-    let recipeCountElement = document.createElement('p');
-    recipeCountElement.id = 'recipeCount';
-    container.appendChild(recipeCountElement);
-    return recipeCountElement;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const menuContainer = document.getElementById('menuContainer');
-    const testElement = document.createElement('p');
-    testElement.textContent = 'Test visible';
-    menuContainer.appendChild(testElement);
-});
-
 
 // Fonction pour mettre à jour le menu en fonction des résultats du filtre
 function updateMenu(filteredRecipes) {
@@ -109,8 +95,6 @@ function updateInputHeader(recipes){
     });
 
 }
-
-
 
 
 function closeBtnHandle(recipes){

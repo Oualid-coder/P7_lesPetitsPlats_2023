@@ -71,7 +71,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
          // Bouton de la loupe
     const searchButton = document.createElement('button');
     searchButton.id='search-button';
-    searchButton.innerHTML = '<img src="assets/loop4.svg" alt="Rechercher"/>';  // Utilisez votre propre icône ici
+    searchButton.innerHTML = '<img src="assets/loop4.svg" alt="Rechercher">';  // Utilisez votre propre icône ici
     searchContainer.appendChild(searchButton);
     
         const searchInput = document.createElement('input');
