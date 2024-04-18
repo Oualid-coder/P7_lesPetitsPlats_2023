@@ -18,9 +18,10 @@ export function headerFactory(callback, recipes) {
 
        
         const additionalText = document.createElement('p');
-        additionalText.textContent = "Les Petits Plats";
+        additionalText.textContent = "LES PETITS PLATS";
         additionalText.style.color = "rgb(243 241 235)";
         additionalText.style.position = 'absolute';
+        additionalText.style.fontWeight='bold';
         additionalText.style.top = '10px'; 
         additionalText.style.left = '50px'; 
 
