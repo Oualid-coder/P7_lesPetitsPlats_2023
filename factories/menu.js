@@ -40,11 +40,23 @@ export function menuCardFactory(recipe) {
         title.style.margin = '10px';
         menuCard.appendChild(title);
 
+        const recette = document.createElement('h6');
+        recette.classList.add('title-recette')
+        recette.innerText = 'RECETTE'; 
+        menuCard.appendChild(recette);
+
         // Ajouter la description de la recette
         const description = document.createElement('p');
         description.textContent = recipe.description;
         description.style.margin = '10px';
         menuCard.appendChild(description);
+      
+
+        const ingredienTitle = document.createElement('h6');
+        ingredienTitle.classList.add('title-ingredient')
+        ingredienTitle.innerText = 'INGREDIENTS'; 
+        menuCard.appendChild(ingredienTitle);
+
 
         // Ajouter les ingrédients
         const ingredientsList = document.createElement('div');

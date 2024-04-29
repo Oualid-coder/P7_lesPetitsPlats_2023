@@ -79,6 +79,11 @@ body {
   padding: 20px;
 }
 
+.title-recette, .title-ingredient {
+
+margin-left: 10px !important;
+
+}
 
 
 .content-container {
