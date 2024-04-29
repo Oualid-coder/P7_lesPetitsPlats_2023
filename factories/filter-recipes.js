@@ -228,19 +228,41 @@ function filterRecipes(allRecipes, filterType, filterValue) {
 
     console.log(`Filtrage des recettes pour le type ${filterType} et l'option ${filterValue}`);
     filterValue = filterValue.toLowerCase().trim();
+    let filteredRecipes = [];
 
-    switch (filterType) {
-        case 'ingredients':
-            return allRecipes.filter(recipe => recipe.ingredients.some(ing => ing.ingredient.toLowerCase() === filterValue));
-        case 'ustensils':
-            return allRecipes.filter(recipe => recipe.ustensils.includes(filterValue));
-        case 'appliance':
-            return allRecipes.filter(recipe => recipe.appliance === filterValue);
-        default:
+    let i, j, recipe, ingredient;
+    for (i = 0; i < allRecipes.length; i++) {
+        recipe = allRecipes[i];
+
+        if (filterType === 'ingredients') {
+            for (j = 0; j < recipe.ingredients.length; j++) {
+                ingredient = recipe.ingredients[j];
+                if (ingredient.ingredient.toLowerCase() === filterValue) {
+                    filteredRecipes.push(recipe);
+                    break; // Arrête la recherche d'ingrédients si on en trouve un correspondant
+                }
+            }
+        } else if (filterType === 'ustensils') {
+            j = 0;
+            while (j < recipe.ustensils.length) {
+                if (recipe.ustensils[j].toLowerCase() === filterValue) {
+                    filteredRecipes.push(recipe);
+                    break; // Arrête la recherche si on trouve un ustensile correspondant
+                }
+                j++;
+            }
+        } else if (filterType === 'appliance') {
+            if (recipe.appliance.toLowerCase() === filterValue) {
+                filteredRecipes.push(recipe);
+            }
+        } else {
             console.error("Type de filtre non reconnu:", filterType);
-            return allRecipes;  // En cas de doute, ne filtrez pas
+            return allRecipes; // En cas de doute, ne filtrez pas
+        }
     }
+    return filteredRecipes;
 }
+
 
 
 
