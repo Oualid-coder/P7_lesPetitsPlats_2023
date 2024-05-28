@@ -322,13 +322,17 @@ export const recipes = [
                 "unit": "grammes"
             },
             {
-                "ingredient": "Vinaigre Balsamic"
+                "ingredient": "Vinaigre Balsamic",
+                "quantity": 150,
             },
             {
-                "ingredient": "Huile d'olive"
+                "ingredient": "Huile d'olive",
+                "quantity": 150,
+
             }, 
             {
-                "ingredient": "Basilic"    
+                "ingredient": "Basilic",
+                "quantity": 150,    
             }
         ],
         "time": 15,
@@ -935,7 +939,9 @@ export const recipes = [
                 "quantity": 1
             },
             {
-                "ingredient": "Huile d'olives"
+                "ingredient": "Huile d'olives",
+                "quantity":15,
+                "unit":"ml"
             },
             {
                 "ingredient": "Oignon",

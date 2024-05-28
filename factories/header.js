@@ -1,7 +1,5 @@
 // factories/header.js
 
-import { filterFactory } from './filter.js'; 
-
 export function headerFactory(callback, recipes) {
     function createHeader() {
        
@@ -136,9 +134,6 @@ export function headerFactory(callback, recipes) {
             searchInput.addEventListener('input', function() {
                 resetIcon.style.visibility = searchInput.value.length > 0 ? 'visible' : 'hidden';
             });
-
-
-
 
         return header ;
 
