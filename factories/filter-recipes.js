@@ -1,22 +1,26 @@
-import { initialRecipes } from '../index.js'
 
-export function filterBarFactory(recipes, updateDisplayCallback) {
+import { applyAllActiveFilters } from '../index.js';
+import { activeFilters } from '../index.js';
+import { updateMenu } from '../index.js';
+
+
+export function filterBarFactory(currentFilteredRecipes,updateDisplayCallback) {
     if (typeof updateDisplayCallback !== 'function') {
         throw new Error('updateDisplayCallback must be a function');
     }
+
 
     function createFilterBar() {
         const filterBar = document.createElement('div');
         filterBar.classList.add('filter-bar');
 
-        const filterIngredients = createDropdown('Ingrédients', getUniqueIngredients(recipes), 'ingredients', updateDisplayCallback);
-
+        const filterIngredients = createDropdown('Ingrédients', getUniqueIngredients(currentFilteredRecipes), 'ingredients', updateDisplayCallback);
         filterBar.appendChild(filterIngredients);
 
-        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(recipes),'appliance', updateDisplayCallback);
+        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(currentFilteredRecipes), 'appliance', updateDisplayCallback);
         filterBar.appendChild(filterAppliances);
 
-        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(recipes),'ustensils', updateDisplayCallback);
+        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(currentFilteredRecipes), 'ustensils', updateDisplayCallback);
         filterBar.appendChild(filterUstensils);
 
         return filterBar;
@@ -27,9 +31,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
     function createDropdown(title, options, type, callback) {
         const dropdownContainer = document.createElement('div');
         dropdownContainer.classList.add('dropdown');
-
-   
-    
+ 
         const button = document.createElement('button');
         button.textContent = title;
         button.classList.add('dropdown-button');
@@ -40,7 +42,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         dropdownContainer.appendChild(dropdownContent);
 
 
-            // Créez un conteneur pour l'input et l'icône de loupe
+        // Créez un conteneur pour l'input et l'icône de loupe
         const searchContainer = document.createElement('div');
         searchContainer.classList.add('search-container');
         searchContainer.style.display = 'flex';
@@ -49,7 +51,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         dropdownContent.appendChild(searchContainer);
 
 
-            // Créez l'icône de réinitialisation et ajoutez-la au conteneur de recherche
+        // Créez l'icône de réinitialisation et ajouter au conteneur de recherche
         const resetIcon = document.createElement('span');
         resetIcon.textContent = '×';
         resetIcon.classList.add('reset-icon');
@@ -59,7 +61,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
         resetIcon.style.left='111px';
         resetIcon.style.marginRight = '0.5em'; 
         
-        // Ajoutez des événements pour gérer l'affichage et la réinitialisation
+        // Ajout des événements pour gérer l'affichage et la réinitialisation
         resetIcon.addEventListener('click', () => {
             searchInput.value = '';
             resetIcon.style.visibility = 'hidden';
@@ -68,11 +70,11 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
 
         searchContainer.appendChild(resetIcon);
 
-         // Bouton de la loupe
-    const searchButton = document.createElement('button');
-    searchButton.id='search-button';
-    searchButton.innerHTML = '<img src="assets/loop4.svg" alt="Rechercher">';  // Utilisez votre propre icône ici
-    searchContainer.appendChild(searchButton);
+        // Bouton de la loupe
+        const searchButton = document.createElement('button');
+        searchButton.id='search-button';
+        searchButton.innerHTML = '<img src="assets/loop4.svg" alt="Rechercher">'; 
+        searchContainer.appendChild(searchButton);
     
         const searchInput = document.createElement('input');
         searchInput.classList.add('search-input', 'search-input-with-icon');        
@@ -106,8 +108,6 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
             dropdownContent.classList.toggle('show');
         });
 
-
-    
         // Attacher les options initiales à dropdownContent
         attachOptionsToDropdown(options, dropdownContent, type, callback, tagsContainer);
     
@@ -127,49 +127,57 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
 
     
     function attachOptionsToDropdown(options, dropdownContent, type, callback, tagsContainer) {
-    // Obtenez le premier enfant, qui devrait être le conteneur de recherche
-    const searchContainer = dropdownContent.firstChild;
-
-    // Supprimez tout sauf le conteneur de recherche
-    while (dropdownContent.lastChild !== searchContainer) {
-        dropdownContent.removeChild(dropdownContent.lastChild);
-    }
-
-    // Ajoutez les options filtrées ou toutes les options
-    options.forEach(option => {
-        const optionElement = document.createElement('a');
-        optionElement.textContent = option;
-        optionElement.classList.add('option')
-        optionElement.addEventListener('click', (e) => {
-            e.preventDefault();
-            const filteredRecipes = filterRecipes(recipes, type, option.toLowerCase().trim());
-            callback(filteredRecipes);
-            createTag(option, tagsContainer, type, callback);
+        // Obtenez le premier enfant, qui devrait être le conteneur de recherche
+        const searchContainer = dropdownContent.firstChild;
+    
+        // Supprimez tout sauf le conteneur de recherche
+        while (dropdownContent.lastChild !== searchContainer) {
+            dropdownContent.removeChild(dropdownContent.lastChild);
+        }
+    
+        // Ajoutez les options filtrées ou toutes les options
+        options.forEach(option => {
+            const optionElement = document.createElement('a');
+            optionElement.textContent = option;
+            optionElement.classList.add('option');
+            dropdownContent.appendChild(optionElement); // Ajouter l'élément d'option au contenu du menu déroulant
+    
+            optionElement.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Gérer les filtres de manière cumulative
+                createTag(option, tagsContainer, type, callback);
+                const tagFilterIndex = activeFilters.findIndex(f => f.type === type && f.value === option.toLowerCase().trim());
+                if (tagFilterIndex === -1) {
+                    activeFilters.push({ type: type, value: option.toLowerCase().trim() });
+                } else {
+                    // Optionnel : toggle off si déjà sélectionné
+                    activeFilters.splice(tagFilterIndex, 1);
+                }
+                applyAllActiveFilters(); // Appliquer tous les filtres actifs après mise à jour
+            });
+            
         });
-        dropdownContent.appendChild(optionElement);
-    });
-
+    
     // Réappliquez le focus sur l'input de recherche, si nécessaire
     const searchInput = searchContainer.querySelector('.search-input');
     if (searchInput) {
         searchInput.focus();
     }
 
-
     }
 
 
-    function getUniqueIngredients(recipes) {
-        return [...new Set(recipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient)))].sort();
+    function getUniqueIngredients(currentFilteredRecipes) {
+        return [...new Set(currentFilteredRecipes.flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient)))].sort();
     }
 
-    function getUniqueAppliances(recipes) {
-        return [...new Set(recipes.map(recipe => recipe.appliance.toLowerCase()))].sort();
+    function getUniqueAppliances(currentFilteredRecipes) {
+        return [...new Set(currentFilteredRecipes.map(recipe => recipe.appliance.toLowerCase()))].sort();
     }
     
 
-    function getUniqueUstensils(recipes) {
-        return [...new Set(recipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))].sort();
+    function getUniqueUstensils(currentFilteredRecipes) {
+        return [...new Set(currentFilteredRecipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))].sort();
     }
     
 
@@ -179,7 +187,7 @@ export function filterBarFactory(recipes, updateDisplayCallback) {
 }
 
 
-function createTag(option, container, type, callback) {
+export function createTag(option, container, type, callback) {
     const tag = document.createElement('div');
     tag.classList.add('tag');
     tag.textContent = option;
@@ -187,8 +195,14 @@ function createTag(option, container, type, callback) {
     tag.dataset.value = option.toLowerCase().trim(); // Stocke la valeur de l'option utilisée pour le tag
 
     tag.addEventListener('click', () => {
-        const filteredRecipes = filterRecipes(initialRecipes, tag.dataset.type, tag.dataset.value);
-        callback(filteredRecipes);
+        const tagFilterIndex = activeFilters.findIndex(f => f.type === filterType && f.value === filterValue);
+        if (tagFilterIndex === -1) {
+            activeFilters.push({ type: filterType, value: filterValue });
+        } else {
+            // Optionnel: géstion de la suppression du filtre si déjà présent (toggle)
+            activeFilters.splice(tagFilterIndex, 1);
+        }
+        applyAllActiveFilters();
     });
 
     const closeBtn = document.createElement('span');
@@ -197,7 +211,12 @@ function createTag(option, container, type, callback) {
     closeBtn.onclick = (e) => {
         e.stopPropagation();
         container.removeChild(tag);
-        refilterAfterTagRemoval(container, callback);
+        // Retirer également le tag de `activeFilters`
+        const index = activeFilters.findIndex(f => f.type === tag.dataset.type && f.value === tag.dataset.value);
+        if (index !== -1) {
+            activeFilters.splice(index, 1);
+            applyAllActiveFilters(); // Réappliquer les filtres après la suppression d'un tag
+        }
     };
 
     tag.appendChild(closeBtn);
@@ -205,65 +224,97 @@ function createTag(option, container, type, callback) {
 }
 
 
-
-function refilterAfterTagRemoval(tagsContainer, callback) {
-    const tags = Array.from(tagsContainer.querySelectorAll('.tag'));
-    let filteredRecipes = [...initialRecipes]; // Commence avec toutes les recettes initiales
-
-    // Applique les filtres pour chaque tag restant
-    tags.forEach(tag => {
-        filteredRecipes = filterRecipes(filteredRecipes, tag.dataset.type, tag.dataset.value);
-    });
-
-    callback(filteredRecipes); // Met à jour l'affichage avec les recettes filtrées
-}
-
-
-
-function filterRecipes(allRecipes, filterType, filterValue) {
-    if (!Array.isArray(allRecipes) || allRecipes.length === 0) {
-        console.error("filterRecipes appelé avec des données non valides ou un tableau vide:", allRecipes);
+export function filterRecipes(recipes, filterType, filterValue) {
+    if (!Array.isArray(recipes) || recipes.length === 0) {
+        console.error("filterRecipes appelé avec des données non valides ou un tableau vide:", recipes);
         return [];
     }
 
     console.log(`Filtrage des recettes pour le type ${filterType} et l'option ${filterValue}`);
     filterValue = filterValue.toLowerCase().trim();
-    let filteredRecipes = [];
 
-    let i, j, recipe, ingredient;
-    for (i = 0; i < allRecipes.length; i++) {
-        recipe = allRecipes[i];
-
-        if (filterType === 'ingredients') {
-            for (j = 0; j < recipe.ingredients.length; j++) {
-                ingredient = recipe.ingredients[j];
-                if (ingredient.ingredient.toLowerCase() === filterValue) {
-                    filteredRecipes.push(recipe);
-                    break; // Arrête la recherche d'ingrédients si on en trouve un correspondant
-                }
-            }
-        } else if (filterType === 'ustensils') {
-            j = 0;
-            while (j < recipe.ustensils.length) {
-                if (recipe.ustensils[j].toLowerCase() === filterValue) {
-                    filteredRecipes.push(recipe);
-                    break; // Arrête la recherche si on trouve un ustensile correspondant
-                }
-                j++;
-            }
-        } else if (filterType === 'appliance') {
-            if (recipe.appliance.toLowerCase() === filterValue) {
-                filteredRecipes.push(recipe);
-            }
-        } else {
+    switch (filterType) {
+        case 'ingredients':
+            return recipes.filter(recipe => 
+                recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(filterValue))
+            );
+        case 'ustensils':
+            return recipes.filter(recipe => 
+                recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(filterValue))
+            );
+        case 'appliance':
+            return recipes.filter(recipe => 
+                recipe.appliance.toLowerCase().includes(filterValue)
+            );
+        default:
             console.error("Type de filtre non reconnu:", filterType);
-            return allRecipes; // En cas de doute, ne filtrez pas
-        }
+            return recipes; 
     }
-    return filteredRecipes;
 }
 
 
 
+// export function filterRecipes(recipes, filterType, filterValue) {
+//     if (!Array.isArray(recipes) || recipes.length === 0) {
+//         console.error("filterRecipes appelé avec des données non valides ou un tableau vide:", recipes);
+//         return [];
+//     }
 
+//     console.log(`Filtrage des recettes pour le type ${filterType} et l'option ${filterValue}`);
+//     filterValue = filterValue.toLowerCase().trim();
+
+//     let resultats = [];
+
+//     switch (filterType) {
+//         case 'ingredients':
+//             for (let i = 0; i < recipes.length; i++) {
+//                 let recette = recipes[i];
+//                 let ingredientsMatch = false;
+
+//                 let j = 0;
+//                 while (j < recette.ingredients.length && !ingredientsMatch) {
+//                     if (recette.ingredients[j].ingredient.toLowerCase().includes(filterValue)) {
+//                         ingredientsMatch = true;
+//                     }
+//                     j++;
+//                 }
+
+//                 if (ingredientsMatch) {
+//                     resultats.push(recette);
+//                 }
+//             }
+//             break;
+//         case 'ustensils':
+//             for (let i = 0; i < recipes.length; i++) {
+//                 let recette = recipes[i];
+//                 let ustensilsMatch = false;
+
+//                 let j = 0;
+//                 while (j < recette.ustensils.length && !ustensilsMatch) {
+//                     if (recette.ustensils[j].toLowerCase().includes(filterValue)) {
+//                         ustensilsMatch = true;
+//                     }
+//                     j++;
+//                 }
+
+//                 if (ustensilsMatch) {
+//                     resultats.push(recette);
+//                 }
+//             }
+//             break;
+//         case 'appliance':
+//             for (let i = 0; i < recipes.length; i++) {
+//                 let recette = recipes[i];
+//                 if (recette.appliance.toLowerCase().includes(filterValue)) {
+//                     resultats.push(recette);
+//                 }
+//             }
+//             break;
+//         default:
+//             console.error("Type de filtre non reconnu:", filterType);
+//             return recipes;
+//     }
+
+//     return resultats;
+// }
 
