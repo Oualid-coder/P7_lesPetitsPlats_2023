@@ -9,18 +9,18 @@ export function filterBarFactory(currentFilteredRecipes,updateDisplayCallback) {
         throw new Error('updateDisplayCallback must be a function');
     }
 
+
     function createFilterBar() {
         const filterBar = document.createElement('div');
         filterBar.classList.add('filter-bar');
 
         const filterIngredients = createDropdown('Ingrédients', getUniqueIngredients(currentFilteredRecipes), 'ingredients', updateDisplayCallback);
-
         filterBar.appendChild(filterIngredients);
 
-        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(currentFilteredRecipes),'appliance', updateDisplayCallback);
+        const filterAppliances = createDropdown('Appareils', getUniqueAppliances(currentFilteredRecipes), 'appliance', updateDisplayCallback);
         filterBar.appendChild(filterAppliances);
 
-        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(currentFilteredRecipes),'ustensils', updateDisplayCallback);
+        const filterUstensils = createDropdown('Ustensiles', getUniqueUstensils(currentFilteredRecipes), 'ustensils', updateDisplayCallback);
         filterBar.appendChild(filterUstensils);
 
         return filterBar;

@@ -85,6 +85,14 @@ margin-left: 10px !important;
 
 }
 
+.no-recipes-message {
+    font-size: 1.5em;
+    text-align: center;
+    color: #FF0000; 
+    margin-top: 20px;
+}
+
+
 
 .content-container {
     padding: 20px;

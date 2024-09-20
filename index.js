@@ -25,6 +25,7 @@ export function applyAllActiveFilters() {
 }
     
     
+// Fonction de recherche globale modifiée
 function filterGlobalSearch(recipes, searchTerm) {
     return recipes.filter(recipe =>
         recipe.name.toLowerCase().includes(searchTerm) ||
@@ -75,44 +76,66 @@ function filterGlobalSearch(recipes, searchTerm) {
     }
 
 
-    // Fonction pour mettre à jour le menu en fonction des résultats du filtre
-    export    function updateMenu(filteredRecipes) {
-        // Vérifier si filteredRecipes est défini avant de l'utiliser
-        if (filteredRecipes) {
-            clearMenuContainer(menuContainer);  // Supprime les contenus actuels du conteneur de menu
-    
-            let recipeCountElement = document.getElementById('recipeCount');
-            if (!recipeCountElement) {
-                recipeCountElement = document.createElement('span');
-                recipeCountElement.id = 'recipeCount';
-                filterContainer.appendChild(recipeCountElement);
-            }
-            recipeCountElement.textContent = `${filteredRecipes.length} recettes`;
-    
-            filteredRecipes.forEach(recipe => {
-                const menuCardElement = menuCardFactory(recipe).createMenuCard();
-                menuContainer.appendChild(menuCardElement);
-            });
-        } else {
-            console.error("filteredRecipes est undefined dans updateMenu.");
-        }
-    }
-  
 
-    function updateInputHeader() {
-        const searchInput = document.querySelector('.form-control');
+// Fonction pour mettre à jour le menu en fonction des résultats du filtre
+export function updateMenu(filteredRecipes) {
+    clearMenuContainer(menuContainer);  // Supprime les contenus actuels du conteneur de menu
     
-        searchInput.addEventListener('input', () => {
-            const inputValue = searchInput.value.trim().toLowerCase();
-            if (inputValue.length === 0) {
-                lastSearchResults = [...initialRecipes]; // Réinitialiser aux recettes initiales si la recherche est vide.
-                updateMenu(recipes);
-            } else {
-                lastSearchResults = filterGlobalSearch([...initialRecipes], inputValue);
-            }
-            applyAllActiveFilters();
+    // Assurez-vous que le compteur de recettes est toujours visible
+    let recipeCountElement = document.getElementById('recipeCount');
+    if (!recipeCountElement) {
+        recipeCountElement = document.createElement('span');
+        recipeCountElement.id = 'recipeCount';
+        filterContainer.appendChild(recipeCountElement);
+    }
+    
+    // Mettre à jour le compteur de recettes
+    recipeCountElement.textContent = `${filteredRecipes.length} recettes`;
+
+    if (filteredRecipes.length === 0) {
+        const noRecipesMessage = document.createElement('div');
+        noRecipesMessage.textContent = 'Pas de recettes disponibles';
+        noRecipesMessage.classList.add('no-recipes-message');
+        menuContainer.appendChild(noRecipesMessage);
+    } else {
+        filteredRecipes.forEach(recipe => {
+            const menuCardElement = menuCardFactory(recipe).createMenuCard();
+            menuContainer.appendChild(menuCardElement);
         });
     }
+}
+
+
+
+
+  
+
+// Mise à jour de la fonction de gestion des entrées dans la barre de recherche principale
+function updateInputHeader() {
+    const searchInput = document.querySelector('.form-control');
+
+    searchInput.addEventListener('input', () => {
+        const inputValue = searchInput.value.trim().toLowerCase();
+        if (inputValue.length === 0) {
+            lastSearchResults = [...initialRecipes]; // Réinitialiser aux recettes initiales si la recherche est vide.
+            updateMenu(recipes);
+        } else {
+            lastSearchResults = filterGlobalSearch([...initialRecipes], inputValue);
+        }
+        applyAllActiveFilters();
+        updateFilterOptions(lastSearchResults); // Mettre à jour les options des filtres
+    });
+}
+
+
+// Nouvelle fonction pour mettre à jour les options des filtres
+function updateFilterOptions(filteredRecipes) {
+    const filterBar = filterBarFactory(filteredRecipes, updateMenu);
+    const filterContainer = document.getElementById('filterContainer');
+    filterContainer.innerHTML = ''; // Vider le conteneur des filtres existants
+    const filterBarElement = filterBar.createFilterBar();
+    filterContainer.appendChild(filterBarElement);
+}
     
 
     // Fonction pour mettre à jour le menu en fonction des résultats du filtrage par tags
