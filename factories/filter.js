@@ -1,8 +1,8 @@
-
+import DOMPurify from 'dompurify';
 
 export function filterFactory(recipes, callback) {
     function filterRecipes(searchText) {
-        const motCle = searchText.toLowerCase();
+        const motCle = DOMPurify.sanitize(searchText.toLowerCase()); // Nettoie l'input utilisateur
         let resultats = [];
 
         if (motCle === "") {
@@ -13,7 +13,7 @@ export function filterFactory(recipes, callback) {
                 let found = recette.name.toLowerCase().indexOf(motCle) !== -1 || recette.description.toLowerCase().indexOf(motCle) !== -1;
                 
                 if (!found) {
-                    // Utilisation d'une boucle for pour remplacer 'some'
+                   
                     for (let j = 0; j < recette.ingredients.length; j++) {
                         const ingredient = recette.ingredients[j];
                         if (ingredient.ingredient.toLowerCase().indexOf(motCle) !== -1) {

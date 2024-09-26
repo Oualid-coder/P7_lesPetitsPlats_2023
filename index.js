@@ -43,13 +43,13 @@ recipes.forEach(recipe => {
 });
 
 
-const headerFactoryInstance = headerFactory(); // Assurez-vous de définir filterRecipe
+const headerFactoryInstance = headerFactory(); //   définir filterRecipe
 const  headerElement  = headerFactoryInstance.createHeader();
 const headerContainer = document.querySelector('.header');
 headerContainer.appendChild(headerElement);
 
-// Maintenant, récupérez searchInput depuis le DOM
-const searchInput = document.querySelector('.form-control'); 
+// récupérez searchInput depuis le DOM
+//const searchInput = document.querySelector('.form-control'); 
 
 const linkElement = document.createElement('link');
 linkElement.rel = 'stylesheet';
@@ -81,7 +81,7 @@ function clearMenuContainer(container) {
 export function updateMenu(filteredRecipes) {
 clearMenuContainer(menuContainer);  // Supprime les contenus actuels du conteneur de menu
 
-// Assurez-vous que le compteur de recettes est toujours visible
+//  le compteur de recettes doit etre toujours visible
 let recipeCountElement = document.getElementById('recipeCount');
 if (!recipeCountElement) {
     recipeCountElement = document.createElement('span');
@@ -162,9 +162,9 @@ function mergeFilteredRecipes(filteredByInput, filteredByTags) {
 
 const filteredById = new Map();
 
-// Cumuler les recettes en utilisant un identifiant unique si disponible, ou l'objet recette lui-même
+// Cumule des recettes en utilisant un identifiant unique si disponible, ou l'objet recette lui-même
 [...filteredByInput, ...filteredByTags].forEach(recipe => {
-    filteredById.set(recipe.id, recipe); // Assurez-vous que chaque recette a un attribut 'id' unique
+    filteredById.set(recipe.id, recipe); // chaque recette a un attribut 'id' unique
 });
 
 return Array.from(filteredById.values());

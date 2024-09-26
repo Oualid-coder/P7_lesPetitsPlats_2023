@@ -9,7 +9,6 @@ export function filterBarFactory(currentFilteredRecipes,updateDisplayCallback) {
         throw new Error('updateDisplayCallback must be a function');
     }
 
-
     function createFilterBar() {
         const filterBar = document.createElement('div');
         filterBar.classList.add('filter-bar');
@@ -163,8 +162,7 @@ export function filterBarFactory(currentFilteredRecipes,updateDisplayCallback) {
     if (searchInput) {
         searchInput.focus();
     }
-
-    }
+}
 
 
     function getUniqueIngredients(currentFilteredRecipes) {
@@ -174,18 +172,16 @@ export function filterBarFactory(currentFilteredRecipes,updateDisplayCallback) {
     function getUniqueAppliances(currentFilteredRecipes) {
         return [...new Set(currentFilteredRecipes.map(recipe => recipe.appliance.toLowerCase()))].sort();
     }
-    
 
     function getUniqueUstensils(currentFilteredRecipes) {
         return [...new Set(currentFilteredRecipes.flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase())))].sort();
     }
     
-
-
     return { createFilterBar };
     
 }
 
+///////////////////////////////////////////
 
 export function createTag(option, container, type, callback) {
     const tag = document.createElement('div');
@@ -253,68 +249,4 @@ export function filterRecipes(recipes, filterType, filterValue) {
 }
 
 
-
-// export function filterRecipes(recipes, filterType, filterValue) {
-//     if (!Array.isArray(recipes) || recipes.length === 0) {
-//         console.error("filterRecipes appelé avec des données non valides ou un tableau vide:", recipes);
-//         return [];
-//     }
-
-//     console.log(`Filtrage des recettes pour le type ${filterType} et l'option ${filterValue}`);
-//     filterValue = filterValue.toLowerCase().trim();
-
-//     let resultats = [];
-
-//     switch (filterType) {
-//         case 'ingredients':
-//             for (let i = 0; i < recipes.length; i++) {
-//                 let recette = recipes[i];
-//                 let ingredientsMatch = false;
-
-//                 let j = 0;
-//                 while (j < recette.ingredients.length && !ingredientsMatch) {
-//                     if (recette.ingredients[j].ingredient.toLowerCase().includes(filterValue)) {
-//                         ingredientsMatch = true;
-//                     }
-//                     j++;
-//                 }
-
-//                 if (ingredientsMatch) {
-//                     resultats.push(recette);
-//                 }
-//             }
-//             break;
-//         case 'ustensils':
-//             for (let i = 0; i < recipes.length; i++) {
-//                 let recette = recipes[i];
-//                 let ustensilsMatch = false;
-
-//                 let j = 0;
-//                 while (j < recette.ustensils.length && !ustensilsMatch) {
-//                     if (recette.ustensils[j].toLowerCase().includes(filterValue)) {
-//                         ustensilsMatch = true;
-//                     }
-//                     j++;
-//                 }
-
-//                 if (ustensilsMatch) {
-//                     resultats.push(recette);
-//                 }
-//             }
-//             break;
-//         case 'appliance':
-//             for (let i = 0; i < recipes.length; i++) {
-//                 let recette = recipes[i];
-//                 if (recette.appliance.toLowerCase().includes(filterValue)) {
-//                     resultats.push(recette);
-//                 }
-//             }
-//             break;
-//         default:
-//             console.error("Type de filtre non reconnu:", filterType);
-//             return recipes;
-//     }
-
-//     return resultats;
-// }
 
